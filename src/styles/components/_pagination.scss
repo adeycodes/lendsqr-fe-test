@@ -1,0 +1,108 @@
+@import '../variables';
+@import '../mixins';
+
+.pagination {
+  @include flex-between;
+  padding: $spacing-lg;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+  
+  @include respond-to(mobile) {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.pagination-info {
+  @include flex-center;
+  gap: $spacing-sm;
+  color: $text-secondary;
+  font-size: $font-size-base;
+  
+  select {
+    padding: 6px 30px 6px 12px;
+    border: none;
+    border-radius: $radius-xs;
+    background: rgba($primary-blue, 0.1);
+    color: $primary-blue;
+    font-size: $font-size-base;
+    font-family: $font-family;
+    font-weight: 600;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23213F7D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+  }
+}
+
+.pagination-controls {
+  @include flex-center;
+  gap: $spacing-sm;
+}
+
+.page-btn {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  background: transparent;
+  border: none;
+  border-radius: $radius-xs;
+  cursor: pointer;
+  font-size: $font-size-md;
+  font-family: $font-family;
+  font-weight: 400;
+  color: rgba($text-secondary, 0.6);
+  transition: all 0.2s ease;
+  @include flex-center;
+  
+  &:hover:not(:disabled):not(.active) {
+    background: rgba($primary-blue, 0.1);
+  }
+  
+  &.active {
+    color: $primary-blue;
+    font-weight: 500;
+  }
+  
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.page-arrow {
+  width: 24px;
+  height: 24px;
+  background: rgba($primary-blue, 0.1);
+  border: none;
+  border-radius: $radius-xs;
+  cursor: pointer;
+  @include flex-center;
+  transition: all 0.2s ease;
+  
+  svg {
+    width: 14px;
+    height: 14px;
+    color: $primary-blue;
+  }
+  
+  &:hover:not(:disabled) {
+    background: rgba($primary-blue, 0.2);
+  }
+  
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.page-ellipsis {
+  padding: 0 $spacing-xs;
+  color: $text-secondary;
+}
