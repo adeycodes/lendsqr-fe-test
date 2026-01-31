@@ -1,0 +1,36 @@
+@import '../variables';
+@import '../mixins';
+
+.layout {
+  min-height: 100vh;
+  background: $bg-main;
+}
+
+.main-content {
+  margin-left: $sidebar-width;
+  padding-top: $header-height;
+  min-height: 100vh;
+  
+  @include respond-to(tablet) {
+    margin-left: 0;
+  }
+}
+
+.page-content {
+  padding: $spacing-xl $spacing-3xl;
+  
+  @include respond-to(tablet) {
+    padding: $spacing-lg;
+  }
+  
+  @include respond-to(mobile) {
+    padding: $spacing-md;
+  }
+}
+
+.page-title {
+  color: $primary-blue;
+  font-size: $font-size-xl;
+  font-weight: 500;
+  margin-bottom: $spacing-xl;
+}

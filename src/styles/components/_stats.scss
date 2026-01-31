@@ -1,0 +1,81 @@
+@import '../variables';
+@import '../mixins';
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xl;
+  
+  @include respond-to(tablet) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @include respond-to(mobile) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stat-card {
+  @include card;
+  padding: $spacing-xl $spacing-lg;
+  
+  .icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    @include flex-center;
+    margin-bottom: $spacing-md;
+    
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+    
+    &.purple {
+      background: $stat-purple-bg;
+      
+      svg {
+        color: $stat-purple;
+      }
+    }
+    
+    &.blue {
+      background: $stat-blue-bg;
+      
+      svg {
+        color: $stat-blue;
+      }
+    }
+    
+    &.orange {
+      background: $stat-orange-bg;
+      
+      svg {
+        color: $stat-orange;
+      }
+    }
+    
+    &.pink {
+      background: $stat-pink-bg;
+      
+      svg {
+        color: $stat-pink;
+      }
+    }
+  }
+  
+  .label {
+    color: $text-secondary;
+    font-size: $font-size-base;
+    text-transform: uppercase;
+    margin-bottom: $spacing-sm;
+    font-weight: 500;
+  }
+  
+  .value {
+    color: $primary-blue;
+    font-size: $font-size-xl;
+    font-weight: 600;
+  }
+}

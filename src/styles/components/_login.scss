@@ -1,0 +1,166 @@
+@import '../variables';
+@import '../mixins';
+
+.login-container {
+  display: flex;
+  min-height: 100vh;
+  background: $bg-white;
+  
+  @include respond-to(mobile) {
+    flex-direction: column;
+  }
+}
+
+.login-left {
+  flex: 1;
+  position: relative;
+  background: $bg-white;
+  @include flex-center;
+  flex-direction: column;
+  padding: $spacing-xl;
+  
+  @include respond-to(mobile) {
+    display: none;
+  }
+  
+  .logo {
+    position: absolute;
+    top: $spacing-3xl;
+    left: $spacing-3xl;
+    
+    img {
+      height: 30px;
+      width: auto;
+    }
+  }
+  
+  .illustration {
+    max-width: 600px;
+    width: 90%;
+    
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+
+.login-right {
+  flex: 1;
+  @include flex-center;
+  background: $bg-white;
+  padding: $spacing-xl;
+  
+  @include respond-to(mobile) {
+    padding: $spacing-lg;
+  }
+}
+
+.login-form {
+  max-width: 450px;
+  width: 100%;
+  
+  @include respond-to(mobile) {
+    max-width: 100%;
+  }
+  
+  .mobile-logo {
+    display: none;
+    margin-bottom: $spacing-2xl;
+    
+    @include respond-to(mobile) {
+      display: block;
+      
+      img {
+        height: 25px;
+      }
+    }
+  }
+  
+  h1 {
+    font-size: $font-size-2xl;
+    color: $primary-blue;
+    font-weight: 700;
+    margin-bottom: $spacing-sm;
+  }
+  
+  .subtitle {
+    color: $text-secondary;
+    font-size: $font-size-lg;
+    margin-bottom: $spacing-3xl;
+  }
+  
+  .input-group {
+    margin-bottom: $spacing-lg;
+    
+    input {
+      @include input-base;
+    }
+  }
+  
+  .password-group {
+    position: relative;
+    margin-bottom: $spacing-lg;
+    
+    input {
+      @include input-base;
+      padding-right: 80px;
+    }
+    
+    .show-password {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: $primary-cyan;
+      font-weight: 600;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: $font-size-sm;
+      letter-spacing: 0.1em;
+      font-family: $font-family;
+      
+      &:hover {
+        color: darken($primary-cyan, 10%);
+      }
+    }
+  }
+  
+  .forgot-password {
+    display: block;
+    color: $primary-cyan;
+    text-decoration: none;
+    margin-bottom: $spacing-xl;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    
+    &:hover {
+      color: darken($primary-cyan, 10%);
+    }
+  }
+  
+  .login-button {
+    @include button-primary;
+    width: 100%;
+    padding: 16px;
+    font-size: $font-size-base;
+    text-transform: uppercase;
+  }
+  
+  .error-message {
+    color: $status-blacklisted;
+    font-size: $font-size-sm;
+    margin-top: $spacing-xs;
+    margin-bottom: 0;
+  }
+  
+  .input-error {
+    input {
+      border-color: $status-blacklisted;
+    }
+  }
+}
