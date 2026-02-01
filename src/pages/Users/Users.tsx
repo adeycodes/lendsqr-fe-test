@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../../components/layout/Layout';
 import StatCard from '../../components/common/StatCard';
@@ -12,40 +12,41 @@ import '../../styles/components/_filters.scss';
 import '../../styles/components/_pagination.scss';
 
 const FilterIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6.22222 13.3333H9.77778V11.5555H6.22222V13.3333ZM0 2.66666V4.44443H16V2.66666H0ZM2.66667 8.88888H13.3333V7.1111H2.66667V8.88888Z" fill="#545F7D" />
   </svg>
+
 );
 
 const MoreIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="1"/>
-    <circle cx="12" cy="5" r="1"/>
-    <circle cx="12" cy="19" r="1"/>
+    <circle cx="12" cy="12" r="1" />
+    <circle cx="12" cy="5" r="1" />
+    <circle cx="12" cy="19" r="1" />
   </svg>
 );
 
 const EyeIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-    <circle cx="12" cy="12" r="3"/>
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+    <circle cx="12" cy="12" r="3" />
   </svg>
 );
 
 const UserXIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-    <circle cx="8.5" cy="7" r="4"/>
-    <line x1="18" y1="8" x2="23" y2="13"/>
-    <line x1="23" y1="8" x2="18" y2="13"/>
+    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+    <circle cx="8.5" cy="7" r="4" />
+    <line x1="18" y1="8" x2="23" y2="13" />
+    <line x1="23" y1="8" x2="18" y2="13" />
   </svg>
 );
 
 const UserCheckIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-    <circle cx="8.5" cy="7" r="4"/>
-    <polyline points="17 11 19 13 23 9"/>
+    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+    <circle cx="8.5" cy="7" r="4" />
+    <polyline points="17 11 19 13 23 9" />
   </svg>
 );
 
@@ -58,7 +59,9 @@ const Users: React.FC = () => {
   const [perPage, setPerPage] = useState(10);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [openFilterColumn, setOpenFilterColumn] = useState<string | null>(null);
+  const [filterPosition, setFilterPosition] = useState({ top: 0, left: 0 });
   const [organizations, setOrganizations] = useState<string[]>([]);
+  const headerRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   useEffect(() => {
     const loadData = async () => {
@@ -82,6 +85,15 @@ const Users: React.FC = () => {
   }, [filteredUsers, currentPage, perPage]);
 
   const totalPages = Math.ceil(filteredUsers.length / perPage);
+
+  const handleFilterClick = (columnKey: string, event: React.MouseEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    setFilterPosition({
+      top: rect.bottom + window.scrollY,
+      left: rect.left + window.scrollX
+    });
+    setOpenFilterColumn(openFilterColumn === columnKey ? null : columnKey);
+  };
 
   const handleFilter = (newFilters: FilterParams) => {
     setFilters(newFilters);
@@ -147,7 +159,7 @@ const Users: React.FC = () => {
   return (
     <Layout>
       <h1 className="page-title">Users</h1>
-      
+
       <div className="stats-grid">
         <StatCard label="Users" value={stats.totalUsers} colorClass="purple" />
         <StatCard label="Active Users" value={stats.activeUsers} colorClass="blue" />
@@ -155,28 +167,20 @@ const Users: React.FC = () => {
         <StatCard label="Users with Savings" value={stats.usersWithSavings} colorClass="pink" />
       </div>
 
-      <div className="table-container">
+      <div className="table-container" style={{ position: 'relative' }}>
         <table className="users-table">
           <thead>
             <tr>
               {columns.map((col) => (
                 <th key={col.key}>
                   <div
+                    ref={(el) => (headerRefs.current[col.key] = el)}
                     className="header-content"
-                    onClick={() => setOpenFilterColumn(openFilterColumn === col.key ? null : col.key)}
+                    onClick={(e) => handleFilterClick(col.key, e)}
                   >
                     {col.label}
                     <FilterIcon />
                   </div>
-                  {openFilterColumn === col.key && (
-                    <FilterPanel
-                      filters={filters}
-                      organizations={organizations}
-                      onFilter={handleFilter}
-                      onReset={handleResetFilters}
-                      onClose={() => setOpenFilterColumn(null)}
-                    />
-                  )}
                 </th>
               ))}
               <th></th>
@@ -234,6 +238,24 @@ const Users: React.FC = () => {
             )}
           </tbody>
         </table>
+
+        {/* Filter Panel - Rendered outside table */}
+        {openFilterColumn && (
+          <div style={{
+            position: 'absolute',
+            top: `${filterPosition.top - window.scrollY}px`,
+            left: `${filterPosition.left - (document.querySelector('.table-container')?.getBoundingClientRect().left || 0)}px`,
+            zIndex: 200
+          }}>
+            <FilterPanel
+              filters={filters}
+              organizations={organizations}
+              onFilter={handleFilter}
+              onReset={handleResetFilters}
+              onClose={() => setOpenFilterColumn(null)}
+            />
+          </div>
+        )}
 
         <Pagination
           currentPage={currentPage}
