@@ -61,6 +61,8 @@ describe('Users Page', () => {
       usersWithSavings: 0
     });
     vi.mocked(api.getOrganizations).mockReturnValue(['Test Org']);
+    vi.mocked(api.filterUsers).mockReturnValue(mockUsers);
+    vi.mocked(api.paginateUsers).mockReturnValue(mockUsers);
 
     render(
       <BrowserRouter>
