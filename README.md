@@ -4,7 +4,7 @@ A fully responsive admin dashboard for managing users, built with React, TypeScr
 
 ## 🌐 Live Demo
 
-**Deployed Application:** [https://YOUR-NAME-lendsqr-fe-test.vercel.app](https://YOUR-NAME-lendsqr-fe-test.vercel.app)
+**Deployed Application:** [https://YOUR-NAME-lendsqr-fe-test.vercel.app](https://emmanuel-adeyefa-lendsqr-fe-test.vercel.app)
 
 ## 📸 Screenshots
 
@@ -55,7 +55,7 @@ A fully responsive admin dashboard for managing users, built with React, TypeScr
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/YOUR_USERNAME/lendsqr-fe-test.git
+git clone https://github.com/adeycodes/lendsqr-fe-test.git
 cd lendsqr-fe-test
 ```
 
